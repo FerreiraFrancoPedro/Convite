@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convite Especial</title>
+    <!-- Adicionando Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            background-image: url('coracao-background.jpg'); /* Adicionando imagem de fundo */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.8); /* Adicionando uma cor de fundo com opacidade */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #author-img {
+            max-width: 10%;
+            display: block;
+            margin: 20px auto; 
+            border-radius: 50%; 
+        }
+    </style>
+</head>
+<body>
+    <img id="author-img" src="foto.jpeg" alt="Sua foto"> <!-- Adicionando sua foto -->
+    <div class="container">
+        <h1>Convite para conhecer o homem perfeito❤️</h1>
+        <form id="conviteForm">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="local">Local:</label>
+                <input type="text" class="form-control" id="local" name="local" required>
+            </div>
+            <div class="form-group">
+                <label for="data">Data:</label>
+                <input type="date" class="form-control" id="data" name="data" required>
+                <span id="diaSemana"></span>
+            </div>
+            <div class="form-group">
+                <label for="hora">Hora:</label>
+                <input type="time" class="form-control" id="hora" name="hora" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Convite</button>
+            <!-- Campo oculto para armazenar a mensagem do WhatsApp -->
+            <input type="hidden" id="conviteWhatsApp" name="conviteWhatsApp">
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('conviteForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita o envio do formulário padrão
+
+            // Recupera os dados do formulário
+            var nome = document.getElementById('nome').value;
+            var local = document.getElementById('local').value;
+            var data = document.getElementById('data').value;
+            var hora = document.getElementById('hora').value;
+
+            // Convertendo a data para o formato brasileiro (dd/mm/yyyy)
+            var dataFormatada = new Date(data).toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            // Exibindo o dia da semana na página
+            document.getElementById('diaSemana').innerText = "Data: " + dataFormatada;
+
+            // Cria a mensagem para o WhatsApp
+            var mensagem = " Quero sair com meu amor Pedro, no(a) " + dataFormatada +", lá pelas " + hora + " no(a) " + local + ". Assinado por: " + nome;
+
+            // Codifica a mensagem para que possa ser passada como parâmetro na URL
+            var mensagemCodificada = encodeURIComponent(mensagem);
+
+            // Armazena a mensagem codificada no campo oculto
+            document.getElementById('conviteWhatsApp').value = mensagemCodificada;
+
+            // URL do WhatsApp
+            var urlWhatsApp = "https://wa.me/5535998085210?text=" + mensagemCodificada;
+
+            // Redireciona para o WhatsApp
+            window.location.href = urlWhatsApp;
+        });
+    </script>
+</body>
+</html>
